@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 
 import {Button} from "@/components/ui/button";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription} from "@/components/ui/form";
 import {Textarea} from "@/components/ui/textarea";
 import {toast} from "@/components/ui/use-toast";
 import {Toaster} from "../ui/toaster";
@@ -46,7 +46,7 @@ const Comment = () => {
 						name='comment' // Fixed to match the schema
 						render={({field}) => (
 							<FormItem className='relative'>
-								<div className="flex justify-between">
+								<div className='flex justify-between'>
 									<FormLabel className='font-bold text-lg text-black'>Comment</FormLabel>
 									<FormMessage className='text-white bg-black w-fit px-2 py-1 border rounded' />
 								</div>

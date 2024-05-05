@@ -1,15 +1,9 @@
-import React from "react";
-import ButtonFamily from "../buttonFamily";
-import {DropdownMenu} from "@radix-ui/react-dropdown-menu";
-import {DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
-import {Button} from "../ui/button";
-import {CircleUser} from "lucide-react";
-import {DropdownMenuContent} from "@radix-ui/react-dropdown-menu";
-import {DropdownMenuLabel} from "@radix-ui/react-dropdown-menu";
-import {DropdownMenuSeparator} from "@radix-ui/react-dropdown-menu";
-import {DropdownMenuItem} from "@radix-ui/react-dropdown-menu";
-import useNavHide from "./useNavHide";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { CircleUser } from "lucide-react";
 import { Link } from "react-router-dom";
+import ButtonFamily from "../buttonFamily";
+import { Button } from "../ui/button";
+import useNavHide from "./useNavHide";
 
 const Navbar = ({isOpen}) => {
 	const hideNavbar = useNavHide(["/login", "/signup"]);

@@ -1,8 +1,7 @@
 import Comment from "@/components/comment";
 import Post from "@/components/post";
-import React from "react";
 
-const PostScreen = () => {
+const Post_ = () => {
 	return (
 		<main className='grid grid-cols-6 gap-4 p-4 lg:gap-6 lg:p-6'>
 			<div className='col-start-2 col-end-6 flex flex-1 items-center justify-left px-20 rounded-lg shadow-sm bg-slate-950 text-white'>
@@ -39,4 +38,4 @@ const PostScreen = () => {
 	);
 };
 
-export default PostScreen;
+export default Post_;
