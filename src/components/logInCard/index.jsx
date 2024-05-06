@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Toaster } from "../ui/toaster";
 import { onError, onSubmit } from "./action";
 import validationSchema from "./validationSchema";
-
+ 
 const LogInCard = () => {
 	const form = useForm({resolver: zodResolver(validationSchema), mode: "onSubmit"});
 
