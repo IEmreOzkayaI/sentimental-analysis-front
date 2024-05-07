@@ -1,46 +1,37 @@
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {z} from "zod";
 
 import {Button} from "@/components/ui/button";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription} from "@/components/ui/form";
-import {Textarea} from "@/components/ui/textarea";
-import {toast} from "@/components/ui/use-toast";
-import {Toaster} from "../ui/toaster";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Separator} from "@/components/ui/separator";
-
-const FormSchema = z.object({
-	comment: z
-		.string()
-		.min(10, {
-			message: "Comment must be at least 10 characters.", // Updated the field name in the message
-		})
-		.max(160, {
-			message: "Comment must not be longer than 160 characters.", // Corrected the max length message
-		}),
-});
+import {Textarea} from "@/components/ui/textarea";
+import {Toaster} from "../ui/toaster";
+import useFormHandlers from "./useFormHandlers";
+import validationSchema, {defaultValues} from "./validationSchema";
+import showToast from "../toast";
+import Loading from "../loading";
+import {useSelector} from "react-redux";
+import {addCommentStatus} from "@/states/feature/comment/addComment";
 
 const Comment = () => {
-	const form = useForm({
-		resolver: zodResolver(FormSchema),
-	});
+	const form = useForm({resolver: zodResolver(validationSchema), mode: "onSubmit", defaultValues});
+	const {onSubmit, onError, clearInfo} = useFormHandlers();
+	const {data, error, isLoading} = useSelector(addCommentStatus);
 
-	function onSubmit(data) {
-		console.log(data);
-		toast({
-			title: "You submitted the following values:",
-			description: (
-				<pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-					<code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-		});
+	if (data) {
+		showToast("Success", "Comment added successfully");
+		clearInfo();
+	}
+
+	if (error) {
+		showToast(error.message);
 	}
 
 	return (
 		<div className='col-start-2 col-end-6 flex flex-1 items-center border border-dashed justify-left px-2 py-2 rounded-lg shadow-sm'>
+			{isLoading && <Loading />}
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 w-full'>
+				<form onSubmit={form.handleSubmit(onSubmit, onError)} className='space-y-6 w-full'>
 					<FormField
 						control={form.control}
 						name='comment' // Fixed to match the schema

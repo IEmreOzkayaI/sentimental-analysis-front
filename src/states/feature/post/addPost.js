@@ -7,36 +7,36 @@ const initialState = {
 };
 
 const reducers = {
-	logInProgress: (state) => {
+	addPostProgress: (state) => {
 		state.isLoading = true;
 		state.error = false;
 		state.data = null;
 	},
-	logInFailure: (state, {payload}) => {
+	addPostFailure: (state, {payload}) => {
 		state.isLoading = false;
 		state.error = payload;
 		state.data = null;
 	},
-	logInSuccess: (state, {payload}) => {
+	addPostSuccess: (state, {payload}) => {
 		state.isLoading = false;
 		state.error = false;
 		state.data = payload;
 	},
-	clearLogInInfo: (state) => {
+	clearAddPostInfo: (state) => {
 		state.isLoading = false;
 		state.error = false;
 		state.data = null;
 	},
 };
 
-const logInSlice = createSlice({
-	name: "logInSlice",
+const addPostSlice = createSlice({
+	name: "addPostSlice",
 	initialState,
 	reducers,
 });
 
-export const logIn = createAction("logInSlice/logIn");
-export const logInStatus = (state) => state?.logInSlice;
+export const addPost = createAction("addPostSlice/addPost");
+export const addPostStatus = (state) => state?.addPostSlice;
 
-export const {logInProgress, logInFailure, logInSuccess, clearLogInInfo} = logInSlice.actions;
-export default logInSlice.reducer;
+export const {addPostProgress, addPostFailure, addPostSuccess, clearAddPostInfo} = addPostSlice.actions;
+export default addPostSlice.reducer;

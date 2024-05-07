@@ -2,18 +2,36 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { logInStatus } from "@/states/feature/auth/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Loading from "../loading";
+import showToast from "../toast";
 import { Toaster } from "../ui/toaster";
-import { onError, onSubmit } from "./action";
-import validationSchema from "./validationSchema";
- 
+import useFormHandlers from "./useFormHandlers";
+import validationSchema, { defaultValues } from "./validationSchema";
+
 const LogInCard = () => {
-	const form = useForm({resolver: zodResolver(validationSchema), mode: "onSubmit"});
+	const form = useForm({resolver: zodResolver(validationSchema), mode: "onSubmit", defaultValues});
+	const {onSubmit, onError, clearInfo} = useFormHandlers();
+	const {data, error, isLoading} = useSelector(logInStatus);
+
+	if (data) {
+		localStorage.setItem("token", data.token);
+		localStorage.setItem("user", JSON.stringify(data.user));
+		window.location.replace("/home");
+		clearInfo();
+	}
+
+	if (error) {
+		showToast(error.message);
+	}
 
 	return (
 		<div className='mx-auto grid w-[350px] gap-6'>
+			{isLoading && <Loading />}
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit, onError)}>
 					<div className='grid gap-2 text-center'>
@@ -28,7 +46,7 @@ const LogInCard = () => {
 								<FormItem>
 									<div className='grid gap-2'>
 										<Label htmlFor='email'>Email</Label>
-										<Input id='email' type='text' placeholder='m@example.com' {...field} />
+										<Input id='email' type='text' placeholder='m@example.com' {...field} autoComplete='email' />
 									</div>
 								</FormItem>
 							)}
@@ -44,7 +62,7 @@ const LogInCard = () => {
 											<Label htmlFor='password'>Password</Label>
 											<a className='ml-auto inline-block text-sm underline'>Forgot your password?</a>
 										</div>
-										<Input id='password' type='password' {...field} />
+										<Input id='password' type='password' placeholder='******' {...field} autoComplete='current-password' />
 									</div>
 								</FormItem>
 							)}

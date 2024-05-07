@@ -13,4 +13,6 @@ const validationSchema = z.object({
 		.min(6, "Password must be at least 6 characters long"),
 });
 
+export const defaultValues = {firstName: "", lastName: "", email: "", password: ""};
+
 export default validationSchema;

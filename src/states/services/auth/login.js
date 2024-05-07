@@ -1,6 +1,7 @@
+import API from "@/states/const";
 import {logIn, logInFailure, logInProgress, logInSuccess} from "@/states/feature/auth/login";
 import axios from "axios";
-import {all, call, put, takeLatest} from "redux-saga/effects";
+import {all, call, put, takeEvery, takeLatest} from "redux-saga/effects";
 
 export default function* logInSaga() {
 	yield all([logInWatcher()]);
@@ -9,20 +10,20 @@ function* logInWatcher() {
 	yield takeLatest(logIn, logInStatus);
 }
 
-function* logInStatus() {
+function* logInStatus(action) {
 	try {
 		yield put(logInProgress());
-		const logInResponse = yield call(logInWrapper);
+		const logInResponse = yield call(logInWrapper,action.payload);
 		yield put(logInSuccess(logInResponse));
 	} catch (err) {
 		yield put(logInFailure(err));
 	}
 }
 
-function* logInWrapper() {
+function* logInWrapper(payload) {
 	return yield new Promise((resolve, reject) => {
 		axios
-			.get(`https://jsonplaceholder.typicode.com/todos/1`, {
+			.post(`${API.BACKEND_BASE_URL}${API.LOGIN}`, payload, {
 				withCredentials: true,
 			})
 			.then((res) => {
@@ -30,7 +31,7 @@ function* logInWrapper() {
 				resolve(data);
 			})
 			.catch((err) => {
-				reject(err);
+				reject(err.response.data);
 			});
 	});
 }

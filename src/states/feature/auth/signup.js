@@ -35,8 +35,8 @@ const signUpSlice = createSlice({
 	reducers,
 });
 
-export const signUp = createAction("signUp/signUp");
-export const signUpData = (state) => state.signUpSlice.data;
+export const signUp = createAction("signUpSlice/signUp");
+export const signUpStatus = (state) => state?.signUpSlice;
 
 export const {signUpProgress, signUpFailure, signUpSuccess, clearSignUpInfo} = signUpSlice.actions;
 export default signUpSlice.reducer;

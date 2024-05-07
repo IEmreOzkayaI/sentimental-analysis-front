@@ -23,19 +23,22 @@ const Post = ({children}) => {
 };
 
 // eslint-disable-next-line react/display-name, react/prop-types
-Post.User = ({name, email,date}) => (
+Post.User = ({name, email, date, title}) => (
 	<div className='flex items-center justify-between'>
-		<div className="flex items-center gap-4">
-			<Avatar>
-				<AvatarImage src='https://github.com/shadcn.png' />
-				<AvatarFallback>CN</AvatarFallback>
-			</Avatar>
-			<div className='flex flex-col'>
-				<div className='font-bold'>{name}</div>
-				<div className='text-gray-400'>{email}</div>
+		<div className='flex items-center gap-4 justify-between w-screen'>
+			<div className='flex items-center gap-4'>
+				<Avatar>
+					<AvatarImage src='https://github.com/shadcn.png' />
+					<AvatarFallback>CN</AvatarFallback>
+				</Avatar>
+				<div className='flex flex-col'>
+					<div className='font-bold'>{name}</div>
+					<div className='text-gray-400'>{email}</div>
+				</div>
 			</div>
+			<div className='font-bold'>{title}</div>
 		</div>
-        <div className='text-gray-400'>{date}</div>
+		<div className='text-gray-400'>{date}</div>
 	</div>
 );
 
