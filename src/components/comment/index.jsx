@@ -1,58 +1,50 @@
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {z} from "zod";
 
 import {Button} from "@/components/ui/button";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {Textarea} from "@/components/ui/textarea";
-import {toast} from "@/components/ui/use-toast";
-import {Toaster} from "../ui/toaster";
 import {Separator} from "@/components/ui/separator";
+import {Textarea} from "@/components/ui/textarea";
+import {Toaster} from "../ui/toaster";
+import useFormHandlers from "./useFormHandlers";
+import validationSchema, {defaultValues} from "./validationSchema";
+import showToast from "../toast";
+import Loading from "../loading";
+import {useSelector} from "react-redux";
+import {addCommentStatus} from "@/states/feature/comment/addComment";
 
-const FormSchema = z.object({
-	comment: z
-		.string()
-		.min(10, {
-			message: "Comment must be at least 10 characters.", // Updated the field name in the message
-		})
-		.max(160, {
-			message: "Comment must not be longer than 160 characters.", // Corrected the max length message
-		}),
-});
+const Comment = ({postId}) => {
+	const form = useForm({resolver: zodResolver(validationSchema), mode: "onSubmit", defaultValues});
+	const {onSubmit, onError, clearInfo} = useFormHandlers({postId});
+	const {data, error, isLoading} = useSelector(addCommentStatus);
 
-const Comment = () => {
-	const form = useForm({
-		resolver: zodResolver(FormSchema),
-	});
+	if (data) {
+		showToast("Success", "Comment added successfully");
+		window.location.reload();
+		clearInfo();
+	}
 
-	function onSubmit(data) {
-		console.log(data);
-		toast({
-			title: "You submitted the following values:",
-			description: (
-				<pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-					<code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-		});
+	if (error) {
+		showToast("Error",error.message);
 	}
 
 	return (
 		<div className='col-start-2 col-end-6 flex flex-1 items-center border border-dashed justify-left px-2 py-2 rounded-lg shadow-sm'>
+			{isLoading && <Loading />}
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 w-full'>
+				<form onSubmit={form.handleSubmit(onSubmit, onError)} className='space-y-6 w-full'>
 					<FormField
 						control={form.control}
-						name='comment' // Fixed to match the schema
+						name='comment'
 						render={({field}) => (
 							<FormItem className='relative'>
-								<div className="flex justify-between">
+								<div className='flex justify-between'>
 									<FormLabel className='font-bold text-lg text-black'>Comment</FormLabel>
 									<FormMessage className='text-white bg-black w-fit px-2 py-1 border rounded' />
 								</div>
 								<Separator className='my-4' />
 								<FormControl>
-									<Textarea placeholder='Tell us a little bit about yourself' className=' resize-none w-[90%]' {...field} />
+									<Textarea placeholder="Let's comment ..." className=' resize-none w-[90%]' {...field} />
 								</FormControl>
 								<Button type='submit' className=' absolute bottom-0 right-0'>
 									Submit
