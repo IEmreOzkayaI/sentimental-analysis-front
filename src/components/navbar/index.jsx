@@ -17,7 +17,7 @@ const Navbar = ({isOpen}) => {
 	return (
 		<div>
 			<header className='flex h-14 items-center justify-between  border-b bg-muted/40 px-4 lg:h-[80px] lg:px-6'>
-				<Link to='/'>
+				<Link to='/home'>
 					<div className='text-2xl font-wallpoet'>PURE</div>
 				</Link>
 				{isOpen && <PostDrawer />}

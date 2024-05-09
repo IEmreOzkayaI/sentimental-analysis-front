@@ -28,7 +28,7 @@ export function SignUpCard() {
 	}
 
 	if (error) {
-		showToast(error.message);
+		showToast("Error",error.message);
 	}
 
 	return (

@@ -13,18 +13,19 @@ import Loading from "../loading";
 import {useSelector} from "react-redux";
 import {addCommentStatus} from "@/states/feature/comment/addComment";
 
-const Comment = () => {
+const Comment = ({postId}) => {
 	const form = useForm({resolver: zodResolver(validationSchema), mode: "onSubmit", defaultValues});
-	const {onSubmit, onError, clearInfo} = useFormHandlers();
+	const {onSubmit, onError, clearInfo} = useFormHandlers({postId});
 	const {data, error, isLoading} = useSelector(addCommentStatus);
 
 	if (data) {
 		showToast("Success", "Comment added successfully");
+		window.location.reload();
 		clearInfo();
 	}
 
 	if (error) {
-		showToast(error.message);
+		showToast("Error",error.message);
 	}
 
 	return (
@@ -34,7 +35,7 @@ const Comment = () => {
 				<form onSubmit={form.handleSubmit(onSubmit, onError)} className='space-y-6 w-full'>
 					<FormField
 						control={form.control}
-						name='comment' // Fixed to match the schema
+						name='comment'
 						render={({field}) => (
 							<FormItem className='relative'>
 								<div className='flex justify-between'>
@@ -43,7 +44,7 @@ const Comment = () => {
 								</div>
 								<Separator className='my-4' />
 								<FormControl>
-									<Textarea placeholder='Tell us a little bit about yourself' className=' resize-none w-[90%]' {...field} />
+									<Textarea placeholder="Let's comment ..." className=' resize-none w-[90%]' {...field} />
 								</FormControl>
 								<Button type='submit' className=' absolute bottom-0 right-0'>
 									Submit

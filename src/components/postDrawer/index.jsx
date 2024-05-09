@@ -24,10 +24,10 @@ const PostDrawer = () => {
 		clearInfo();
 		setTimeout(() => {
 			window.location.reload();
-		}, 3000);	}
+		}, 1500);	}
 
 	if (error) {
-		showToast(error.message);
+		showToast("Error",error.message);
 		setTimeout(() => {
 			window.location.reload();
 		}, 3000);
