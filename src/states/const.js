@@ -6,7 +6,6 @@ const API = {
 	COMMENT: "/comment",
 	POST: "/post",
 	PREDICT: "/predict",
-	LIKE: "/like",
 };
 
 export default API;
