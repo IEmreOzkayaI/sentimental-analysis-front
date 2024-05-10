@@ -6,6 +6,9 @@ const usePosts = () => {
 
 	useEffect(() => {
 		dispatch(getPost());
+		return () => {
+			dispatch(clearGetPostInfo());
+		};
 	}, []);
 
 	const clearInfo = () => {

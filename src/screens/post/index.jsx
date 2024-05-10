@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {useParams} from "react-router-dom";
 import NotFound from "../error";
-import {getPostDetailStatus, getPostDetail} from "@/states/feature/post/getPostDetail";
+import {getPostDetailStatus, getPostDetail, clearGetPostDetailInfo} from "@/states/feature/post/getPostDetail";
 
 const Post_ = () => {
 	const params = useParams();
@@ -16,6 +16,9 @@ const Post_ = () => {
 
 	useEffect(() => {
 		dispatch(getPostDetail(params.id));
+		return () => {
+			dispatch(clearGetPostDetailInfo());
+		};
 	}, []);
 
 	if (error) {
